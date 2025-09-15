@@ -13,6 +13,7 @@ app.use((err, req, res, next) => {
   if (err) return res.status(500).json({ message: err.message });
 });
 
+app.get("/api/v1/", (req, res) => res.send("the api is working"));
 app.use("/api/v1", userRouter);
 
 mongoose
