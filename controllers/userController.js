@@ -14,9 +14,7 @@ exports.register = async (req, res) => {
     const existingEmail = await userMOdel.findOne({ email });
     const existingPhoneNUmber = await userMOdel.findOne({ phoneNumber });
     if (existingEmail || existingPhoneNUmber) {
-      return res
-        .status(400)
-        .json({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
     const saltRound = await bcrypyt.genSalt(10);
     const hashPassword = await bcrypyt.hash(password, saltRound);
@@ -28,29 +26,32 @@ exports.register = async (req, res) => {
       age,
       phoneNumber,
     });
-    res.status(201).json({ message: "User registered successfully", data: user });
+    res
+      .status(201)
+      .json({ message: "User registered successfully", data: user });
   } catch (error) {
     res
       .status(400)
       .json({ message: "Internal Server Error", error: error.message });
   }
 };
-exports.getOne =  async (req,res) => {
+exports.getOne = async (req, res) => {
   try {
-    const user = await userMOdel.findById(req.params.id)
+    const user = await userMOdel.findById(req.params.id);
     if (!user) {
       return res.status(404).json({
-        message:'Not found',
-        errror:error.message
-      })
-      res.status(200).json({
-        message:'User below'
-      })
+        message: "Not found",
+        errror: error.message,
+      });
     }
+    res.status(200).json({
+      message: "User below",
+      data: user,
+    });
   } catch (error) {
     res.status(500).json({
-      message:'Internal server error',
-      error:error.message
-    })
+      message: "Internal server error",
+      error: error.message,
+    });
   }
-}
+};
