@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userRouter = require("./router/userRouter");
 const cors = require("cors");
+const productRouter = require("./router/productRouter");
 
 const db = process.env.DB_URI;
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ app.use((err, req, res, next) => {
 
 app.get("/api/v1/", (req, res) => res.send("the api is working"));
 app.use("/api/v1", userRouter);
+app.use("/api/v1", productRouter);
 
 mongoose
   .connect(db)
