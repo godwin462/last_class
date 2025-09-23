@@ -1,5 +1,5 @@
 const {
-  craeteProduct,
+    createProduct,
   deleteProduct,
   updateProduct,
   getAllProducts,
@@ -18,7 +18,7 @@ productRouter.put(
 productRouter.post(
   "/product/",
   upload.array("productImages", 5),
-  craeteProduct
+    createProduct
 );
 productRouter.get("/products", getAllProducts);
 productRouter.delete("/product/:id", deleteProduct);

@@ -2,7 +2,7 @@ const cloudinary = require("../config/cloudinary");
 const productModel = require("../models/productModel");
 const fs = require("fs");
 
-exports.craeteProduct = async (req, res) => {
+exports.createProduct = async (req, res) => {
   let files;
   try {
     const { productName } = req.body;

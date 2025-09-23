@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const userRouter = require("./router/userRouter");
 const cors = require("cors");
 const productRouter = require("./router/productRouter");
+const jwt = require("jsonwebtoken");
+const userModel = require("./models/userModel");
 
 const db = process.env.DB_URI;
 const PORT = process.env.PORT || 3000;
@@ -17,7 +19,22 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.get("/api/v1/", (req, res) => res.send("the api is working"));
+app.get("/api/v1/", (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+
+    const { id } = jwt.verify(token, "permiscus", async (err, decoded) => {
+      if (err) return res.status(500).json({ message: err.message });
+      const checkUser = await userModel.findById(id);
+      res.status(200).json({
+        message: `Welcome ${checkUser.name}, we are happy to have you here!`,
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.use("/api/v1", userRouter);
 app.use("/api/v1", productRouter);
 
